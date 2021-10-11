@@ -127,7 +127,7 @@ void setup() {
   u8g2.setFont(u8g2_font_ncenB14_tr); // choose a suitable font
   MenuRenderer* gasMenuRenderer = new SSD1327GasMenuRenderer(&u8g2);
   MenuRenderer* runMenuRenderer = new SSD1327RunMenuRenderer(&u8g2, dataSource, &g_gasManager);
-  MenuRenderer* sleepTimerMenuRenderer = new SSD1327SleepTimerMenuRenderer(&u8g2, &g_sleepTimer);
+  //MenuRenderer* sleepTimerMenuRenderer = new SSD1327SleepTimerMenuRenderer(&u8g2, &g_sleepTimer);
   MenuRenderer* flashLoggerMenuRenderer = new SSD1327FlashLoggerMenuRenderer(&u8g2, &g_dataLogger);
   MenuRenderer* wifiDumpMenuRenderer = new SSD1327WiFiDumpMenuRenderer(&u8g2, &g_dataLogger);
   MenuRenderer* wifiRealTimeDumpMenuRenderer = new SSD1327WiFiRealTimeDumpMenuRenderer(&u8g2, &g_dataLogger);
@@ -156,19 +156,19 @@ void setup() {
   // Timer Menus
   vector<Menu*> sleepTimerMenus;
   /*
-  	sleepTimerMenus.push_back(new SleepTimerMenuItem("5", "TIMER",  0, &g_sleepTimer, sleepTimerMenuRenderer));
-  	sleepTimerMenus.push_back(new SleepTimerMenuItem("60", "TIMER", 1, &g_sleepTimer, sleepTimerMenuRenderer));
-  	sleepTimerMenus.push_back(new SleepTimerMenuItem("120", "TIMER", 2, &g_sleepTimer, sleepTimerMenuRenderer));
-  	sleepTimerMenus.push_back(new SleepTimerMenuItem("360", "TIMER", 3, &g_sleepTimer, sleepTimerMenuRenderer));
-  	sleepTimerMenus.push_back(new SleepTimerMenuItem("CONTINUOUS", "TIMER", 4, &g_sleepTimer, sleepTimerMenuRenderer));
+    sleepTimerMenus.push_back(new SleepTimerMenuItem("5", "TIMER",  0, &g_sleepTimer, sleepTimerMenuRenderer));
+    sleepTimerMenus.push_back(new SleepTimerMenuItem("60", "TIMER", 1, &g_sleepTimer, sleepTimerMenuRenderer));
+    sleepTimerMenus.push_back(new SleepTimerMenuItem("120", "TIMER", 2, &g_sleepTimer, sleepTimerMenuRenderer));
+    sleepTimerMenus.push_back(new SleepTimerMenuItem("360", "TIMER", 3, &g_sleepTimer, sleepTimerMenuRenderer));
+    sleepTimerMenus.push_back(new SleepTimerMenuItem("CONTINUOUS", "TIMER", 4, &g_sleepTimer, sleepTimerMenuRenderer));
 
-  	CompositeMenu* timerMenu = new CompositeMenu("TIMER","Main Menu" , sleepTimerMenus);
+    CompositeMenu* timerMenu = new CompositeMenu("TIMER","Main Menu" , sleepTimerMenus);
   */
   // DataLogger Menus
   vector<Menu*> dataLoggerMenus;
 
-  dataLoggerMenus.push_back(new DataLoggerFlashStoreMenuItem("FLASH LOGGER", "DATALOGGER", 	&g_dataLogger, flashLoggerMenuRenderer));
-  dataLoggerMenus.push_back(new WiFiDumpMenuItem("WIFI DUMP", "DATALOGGER", 				 	&g_dataLogger, wifiDumpMenuRenderer));
+  dataLoggerMenus.push_back(new DataLoggerFlashStoreMenuItem("FLASH LOGGER", "DATALOGGER",  &g_dataLogger, flashLoggerMenuRenderer));
+  dataLoggerMenus.push_back(new WiFiDumpMenuItem("WIFI DUMP", "DATALOGGER",           &g_dataLogger, wifiDumpMenuRenderer));
   dataLoggerMenus.push_back(new WiFiRealTimeDumpMenuItem("WIFI REAL-TIME DUMP", "DATALOGGER", &g_dataLogger, wifiRealTimeDumpMenuRenderer));
 
 
@@ -195,10 +195,10 @@ void setup() {
 
   horizontalMenus.push_back(runMenu);
   horizontalMenus.push_back(libraryMenu);
-  //	horizontalMenus.push_back(timerMenu);
+  //  horizontalMenus.push_back(timerMenu);
   horizontalMenus.push_back(dataLoggerMenu);
   horizontalMenus.push_back(dateTimeMenu);
-    horizontalMenus.push_back(infoMenu);
+  horizontalMenus.push_back(infoMenu);
 
     Serial.println("horizontal menu " + String(horizontalMenus.size()));
   CompositeMenu* verticalMenu = new CompositeMenu("Main Menu", "", horizontalMenus);
@@ -210,7 +210,7 @@ void setup() {
   setupButtons();
 
   g_webServer.init(&g_gasManager);
-    g_sleepTimer.init(&g_configurationManager, &u8g2);
+  g_sleepTimer.init(&g_configurationManager, &u8g2);
 
   g_dataLogger.init(dataSource, &g_gasManager);
 
@@ -227,9 +227,9 @@ void setup() {
 
   g_timeSync.initTimeFromRTC();
 
-    g_SleepTimer.selectIntervalByValueNoEEPROMSave(300);
+  g_sleepTimer.selectIntervalByValueNoEEPROMSave(300);
 
-    if(isDeepSleepWakeUp())
+  if(isDeepSleepWakeUp())
         u8g2.sleepOff();
 }
 
